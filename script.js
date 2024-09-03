@@ -1,14 +1,19 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('todo-form');
     const input = document.getElementById('todo-input');
     const todoList = document.getElementById('todo-list');
 
+    //필터링 버튼과 검색
+    const searchInput = document.getElementById('search-input');
+    const filterCompletedBtn = document.getElementById('filter-completed');
+    const filterAllBtn = document.getElementById('filter-all');
+
     // 페이지 로드 시 localStorage에서 저장된 할 일 불러오기
     loadTodos();
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); 
-        
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
         const taskText = input.value.trim();
         if (taskText === '') return;
 
@@ -32,19 +37,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const textSpan = document.createElement('span');
         textSpan.textContent = taskText;
-        
+
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('delete');
         deleteButton.textContent = 'Delete';
-        
+
         //Delete 버튼을 클릭했을 시 이벤트가 발생하여 todoList에서 삭제
-        deleteButton.addEventListener('click', function() {
+        deleteButton.addEventListener('click', function () {
             todoList.removeChild(li);
             saveTodos(); // 할 일이 삭제되면 localStorage에 저장
         });
 
         //Checkbox를 클릭시 checked 이벤트 발생
-        checkboxes.addEventListener('click', function() {
+        checkboxes.addEventListener('click', function () {
             if (checkboxes.checked) {
                 li.classList.add('completed');
             } else {
@@ -91,4 +96,54 @@ document.addEventListener('DOMContentLoaded', function() {
             todos.forEach(todo => addTodo(todo.text, todo.completed));
         }
     }
+
+
+    //필터 버튼
+    filterCompletedBtn.addEventListener('click', function () {
+        //todoList 안에 있는 모든 li들을 items로 가져온다
+        const items = todoList.querySelectorAll('li');
+
+        // items를 순회하면서 checkbox가 checked 되어있으면 추가 아니면 none
+        items.forEach(li => {
+            const checkbox = li.querySelector('input[type="checkbox"]')
+            li.style.display = checkbox.checked ? '' : 'none';
+        })
+    })
+
+    //모든 항목 보기 버튼
+    filterAllBtn.addEventListener('click', function () {
+        const items = todoList.querySelectorAll('li');
+        // 모든 항목을 보는 버튼이라 추가 조건이 필요없음
+        items.forEach(li => {
+            li.style.display = '';
+        })
+    })
+
+    //검색 기능
+    searchInput.addEventListener('input', function () {
+        //toLowerCase()를 하는 이유는 문자열의 대소문자를 구분하지 않고 검색하기 위함
+        const query = searchInput.value.toLowerCase();
+        const items = todoList.querySelectorAll('li');
+
+        items.forEach(li => {
+            //query를 toLoserCase()를 했으므로 text(span)에도 toLowerCase()를 적용
+            const text = li.querySelector('span').textContent.toLowerCase();
+            // li를 순회하면서 text가 query에 맞으면 검색 아니면 none
+            li.style.display = text.includes(query) ? '' : 'none';
+
+            /*
+            includes : includes() 메서드는 JavaScript에서 문자열이나 배열에 특정 값이 포함되어 있는지를 검사하는 데 사용
+             이 메서드는 값이 포함되어 있으면 true를 반환하고,
+             그렇지 않으면 false를 반환합니다.
+
+            li.style.display = ''은 HTML 요소의 display 스타일 속성을 기본값으로 되돌리는 것입니다. 이를 통해 요소를 다시 표시하도록 설정할 수 있습니다.
+            
+            CSS display 속성
+            display 속성은 HTML 요소가 페이지에 어떻게 표시되는지를 제어합니다. 주요 값으로는 block, inline, none 등이 있습니다.
+            block: 요소가 블록 레벨 요소로 표시됩니다 (예: div, p).
+            inline: 요소가 인라인 요소로 표시됩니다 (예: span, a).
+            none: 요소가 페이지에 표시되지 않습니다.
+            */
+        })
+    })
 });

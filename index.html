@@ -1,22 +1,34 @@
 <!DOCTYPE html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My To-Do List</title>
     <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
     <div class="container">
         <h1>My To-Do List</h1>
+
+        <div class="filter-container">
+            <!-- 검색 입력-->
+            <input type="text" id="search-input" placeholder="검색...">
+
+            <!-- 완료된 리스트 필터링 -->
+            <button id="filter-completed">완료된 항목 보기</button>
+            <button id="filter-all">모든 항목 보기</button>
+        </div>
         <form id="todo-form">
             <input type="text" id="todo-input" placeholder="리스트 추가하기...">
-            <button type="submit">추가</button>
+            <button class = "btn" type="submit">추가</button>
         </form>
-        <!--ul 부분에 추가버튼을 클릭시 리스트 들이 추가됨--> 
+        <!--ul 부분에 추가버튼을 클릭시 리스트 들이 추가됨-->
         <ul id="todo-list">
 
         </ul>
     </div>
     <script src="script.js"></script>
 </body>
+
 </html>

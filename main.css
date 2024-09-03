@@ -32,7 +32,7 @@ input[type="text"] {
     border-radius: 3px;
 }
 
-button {
+.btn, button.delete, #filter-completed, #filter-all{
     padding: 10px;
     background-color: #2ba12b;
     color: white;
@@ -42,9 +42,7 @@ button {
     margin-left: 5px;
 }
 
-button:hover {
-    background-color: #2ba12b;
-}
+
 
 ul {
     list-style-type: none;
@@ -77,4 +75,17 @@ input[type="checkbox"] {
 
 button.delete {
     margin-left: auto; 
+}
+
+.filter-container{
+    display: flex;
+    justify-self: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#search-input{
+    border-radius: 15px;
+    padding: 10px;
 }
